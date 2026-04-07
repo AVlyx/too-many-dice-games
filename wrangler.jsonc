@@ -1,0 +1,13 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "too-many-dice-games",
+  "compatibility_date": "2025-04-01",
+  "routes": [
+    { "pattern": "games.too-many-dice.com", "custom_domain": true }
+  ],
+  "assets": {
+    "directory": "./out",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "single-page-application"
+  }
+}
