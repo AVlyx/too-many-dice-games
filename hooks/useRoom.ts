@@ -68,5 +68,13 @@ export function useRoom(options: UseRoomOptions) {
     };
   }, [createRoom]);
 
-  return { room, roomCode, players, phase, error };
+  const startEarly = useCallback(() => {
+    if (readyFired.current || players.length < 1 || !room) return;
+    readyFired.current = true;
+    setPhase("ready");
+    room.closeAccess();
+    onPlayersReadyRef.current?.(players);
+  }, [room, players]);
+
+  return { room, roomCode, players, phase, error, startEarly };
 }

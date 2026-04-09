@@ -14,4 +14,11 @@ export const games: GameEntry[] = [
     playerCount: 2,
     href: "/games/backgammon",
   },
+  {
+    slug: "snakes-and-ladders",
+    name: "Snakes & Ladders",
+    description: "Classic race to the top! Roll dice, climb ladders, and avoid snakes. Up to 10 players.",
+    playerCount: 10,
+    href: "/games/snakes-and-ladders",
+  },
 ];

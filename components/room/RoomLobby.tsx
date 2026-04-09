@@ -7,9 +7,10 @@ interface RoomLobbyProps {
   roomCode: string;
   players: TmdPlayer[];
   playerLimit: number;
+  onStart?: () => void;
 }
 
-export function RoomLobby({ roomCode, players, playerLimit }: RoomLobbyProps) {
+export function RoomLobby({ roomCode, players, playerLimit, onStart }: RoomLobbyProps) {
   return (
     <div className="flex flex-col items-center gap-8 py-16">
       <h2 className="text-2xl font-semibold">Join the Game</h2>
@@ -47,6 +48,15 @@ export function RoomLobby({ roomCode, players, playerLimit }: RoomLobbyProps) {
           </ul>
         )}
       </div>
+
+      {onStart && players.length >= 1 && (
+        <button
+          onClick={onStart}
+          className="px-6 py-2 bg-neutral-900 text-white dark:bg-white dark:text-neutral-900 rounded-lg font-semibold"
+        >
+          Start Game
+        </button>
+      )}
     </div>
   );
 }
