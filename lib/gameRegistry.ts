@@ -21,4 +21,11 @@ export const games: GameEntry[] = [
     playerCount: 10,
     href: "/games/snakes-and-ladders",
   },
+  {
+    slug: "dnd",
+    name: "D&D Dice Roller",
+    description: "DM-hosted session with character profiles, roll requests, live results, and full session history.",
+    playerCount: 10,
+    href: "/games/dnd",
+  },
 ];
