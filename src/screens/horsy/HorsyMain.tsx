@@ -1,5 +1,7 @@
+import PetitsChevauxBoard from "./game/PetitsChevauxBoard";
+
 function HorsyMain() {
-  return <div>HorsyMain</div>;
+  return <PetitsChevauxBoard />;
 }
 
 export default HorsyMain;
