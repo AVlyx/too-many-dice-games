@@ -15,7 +15,7 @@
  *   yellow escalier = bottom, entry 35, departure 36
  *   green  escalier = left,   entry 49, departure 50
  */
-import React, { useState } from "react";
+import React from "react";
 
 export type PlayerColor = "red" | "blue" | "yellow" | "green";
 export type PieceLoc = "stable" | "track" | "ladder" | "home";
@@ -90,6 +90,13 @@ export const initialPieces: Piece[] = ORDER.flatMap((color) =>
   [0, 1, 2, 3].map((n) => ({ id: `${color}-${n + 1}`, color, loc: "stable" as PieceLoc, i: n })),
 );
 
+/** A single case, addressed the same way a piece is. */
+export interface BoardCell {
+  loc: PieceLoc;
+  i: number;
+  color: PlayerColor;
+}
+
 interface BoardProps {
   pieces?: Piece[];
   cell?: number;
@@ -98,6 +105,14 @@ interface BoardProps {
   boardColor?: string;
   onCaseClick?: (loc: PieceLoc, i: number, color?: PlayerColor) => void;
   onPieceClick?: (piece: Piece) => void;
+  /** Horse currently picked in the app's form — ringed and lifted above the rest. */
+  highlightPieceId?: string | null;
+  /** Where that horse would land. */
+  highlightTarget?: BoardCell | null;
+  /** Draw the target ring as a capture. */
+  highlightCapture?: boolean;
+  /** Whose turn it is — glows their stable and departure case. */
+  activeColor?: PlayerColor | null;
 }
 
 export default function PetitsChevauxBoard({
@@ -108,10 +123,12 @@ export default function PetitsChevauxBoard({
   boardColor = "oklch(0.93 0.02 85)",
   onCaseClick,
   onPieceClick,
+  highlightPieceId = null,
+  highlightTarget = null,
+  highlightCapture = false,
+  activeColor = null,
 }: BoardProps) {
-  // Replace / lift this as you wire up your own game logic.
-  const [pieces] = useState<Piece[]>(piecesProp ?? initialPieces);
-  const list = piecesProp ?? pieces;
+  const list = piecesProp ?? initialPieces;
 
   const base = (c: number, r: number): React.CSSProperties => ({
     gridColumn: c,
@@ -134,9 +151,10 @@ export default function PetitsChevauxBoard({
     const owner = ORDER.find((k) => START[k] === i);
     const entry = ORDER.find((k) => ENTRY[k] === i);
     if (owner) {
-      st.background = ok(COL[owner], 0.22);
+      st.background = ok(COL[owner], owner === activeColor ? 0.4 : 0.22);
       st.border = `2px solid ${ok(COL[owner])}`;
       st.color = ok(COL[owner]);
+      if (owner === activeColor) st.boxShadow = `0 0 0 3px ${ok(COL[owner], 0.3)}`;
     } else if (entry) {
       st.background = ok(COL[entry], 0.14);
       st.border = `1px dashed ${ok(COL[entry])}`;
@@ -173,8 +191,8 @@ export default function PetitsChevauxBoard({
         style={{
           gridColumn: `${s[0]} / span 2`,
           gridRow: `${s[1]} / span 2`,
-          background: ok(COL[color], 0.1),
-          border: `1px solid ${ok(COL[color], 0.45)}`,
+          background: ok(COL[color], color === activeColor ? 0.22 : 0.1),
+          border: `1px solid ${ok(COL[color], color === activeColor ? 0.9 : 0.45)}`,
           borderRadius: 8,
         }}
       />,
@@ -203,6 +221,7 @@ export default function PetitsChevauxBoard({
     const key = `${c}:${r}`;
     const n = seen[key] ?? 0;
     seen[key] = n + 1;
+    const picked = p.id === highlightPieceId;
     return (
       <div
         key={p.id}
@@ -210,6 +229,10 @@ export default function PetitsChevauxBoard({
         style={{
           gridColumn: c,
           gridRow: r,
+          background: picked
+            ? `radial-gradient(circle, ${ok(COL[p.color], 0.45)} 38%, transparent 72%)`
+            : undefined,
+          borderRadius: "50%",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -221,7 +244,7 @@ export default function PetitsChevauxBoard({
           transform: n
             ? `translate(${n * (p.loc === "home" ? 8 : 5)}px, ${-n * (p.loc === "home" ? 8 : 5)}px)`
             : undefined,
-          zIndex: 5 + n,
+          zIndex: picked ? 30 : 5 + n,
           cursor: onPieceClick ? "pointer" : "default",
           pointerEvents: onPieceClick ? "auto" : "none",
         }}
@@ -230,6 +253,47 @@ export default function PetitsChevauxBoard({
       </div>
     );
   });
+
+  // Rings drawn on top of the grid: the picked horse and where it would land.
+  const overlays: React.ReactElement[] = [];
+  const pickedPiece = highlightPieceId ? list.find((p) => p.id === highlightPieceId) : undefined;
+  if (pickedPiece) {
+    const [c, r] = pieceCoord(pickedPiece);
+    overlays.push(
+      <div
+        key="hl-from"
+        style={{
+          gridColumn: c,
+          gridRow: r,
+          border: `2px dashed ${ok(COL[pickedPiece.color], 0.85)}`,
+          borderRadius: "50%",
+          animation: "pc-pulse 1.2s ease-in-out infinite",
+          pointerEvents: "none",
+          zIndex: 25,
+        }}
+      />,
+    );
+  }
+  if (highlightTarget) {
+    const [c, r] = pieceCoord({ id: "hl", ...highlightTarget });
+    const ring = highlightCapture ? "oklch(0.55 0.22 25)" : ok(COL[highlightTarget.color]);
+    overlays.push(
+      <div
+        key="hl-to"
+        style={{
+          gridColumn: c,
+          gridRow: r,
+          border: `3px solid ${ring}`,
+          background: highlightCapture ? "oklch(0.55 0.22 25 / 0.18)" : ok(COL[highlightTarget.color], 0.3),
+          borderRadius: highlightTarget.loc === "home" ? "50%" : 4,
+          boxShadow: `0 0 0 3px ${highlightCapture ? "oklch(0.55 0.22 25 / 0.25)" : ok(COL[highlightTarget.color], 0.25)}`,
+          animation: "pc-pulse 1.2s ease-in-out infinite",
+          pointerEvents: "none",
+          zIndex: 26,
+        }}
+      />,
+    );
+  }
 
   return (
     <div
@@ -264,7 +328,9 @@ export default function PetitsChevauxBoard({
           }}
         />
         {horses}
+        {overlays}
       </div>
+      <style>{"@keyframes pc-pulse{0%,100%{opacity:1}50%{opacity:0.35}}"}</style>
     </div>
   );
 }
