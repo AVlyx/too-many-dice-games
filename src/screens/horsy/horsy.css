@@ -1,0 +1,263 @@
+.horsy {
+  text-align: left;
+  padding: 0 32px 64px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.horsy-back {
+  display: inline-block;
+  margin-top: 24px;
+  font-size: 15px;
+  color: var(--text);
+  text-decoration: none;
+}
+.horsy-back:hover {
+  color: var(--accent);
+}
+
+.horsy-lede {
+  font-size: 20px;
+  max-width: 62ch;
+  margin-bottom: 32px;
+}
+
+.horsy-split {
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.horsy-rules {
+  flex: 1 1 380px;
+  min-width: 320px;
+}
+
+.horsy-rules h2 {
+  margin-top: 28px;
+}
+
+.horsy-rules ul {
+  padding-left: 20px;
+  margin: 8px 0 0;
+}
+
+.horsy-rules li {
+  margin-bottom: 10px;
+}
+
+.horsy-example {
+  flex: 0 0 auto;
+  margin-inline: auto;
+}
+
+.horsy-caption {
+  font-size: 14px;
+  margin-top: 12px;
+  max-width: 46ch;
+}
+
+.horsy-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  margin-top: 16px;
+  font-size: 15px;
+}
+
+.horsy-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.horsy-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.horsy-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 36px;
+  padding: 14px 28px;
+  font: inherit;
+  font-weight: 600;
+  color: #fff;
+  background: var(--accent);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+}
+.horsy-cta:hover {
+  filter: brightness(1.08);
+}
+.horsy-cta:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  filter: none;
+}
+
+.horsy-cta.is-ghost {
+  color: var(--accent);
+  background: var(--accent-bg);
+  border: 1px solid var(--accent-border);
+  box-shadow: none;
+  font-weight: 500;
+  padding: 10px 20px;
+}
+
+/* ── room ─────────────────────────────────────────────────────────────── */
+
+.horsy-lobby {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+  padding: 48px 24px;
+  text-align: center;
+}
+
+.horsy-qr {
+  padding: 18px;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  line-height: 0;
+}
+
+.horsy-code {
+  font-family: var(--mono);
+  font-size: 44px;
+  letter-spacing: 10px;
+  color: var(--text-h);
+}
+
+.horsy-code-label {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.horsy-players {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 260px;
+}
+
+.horsy-player {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  text-align: left;
+}
+
+.horsy-player.is-turn {
+  border-color: var(--accent);
+  background: var(--accent-bg);
+}
+
+.horsy-player-name {
+  color: var(--text-h);
+  font-weight: 500;
+  flex: 1;
+}
+
+.horsy-player-meta {
+  font-size: 14px;
+}
+
+.horsy-waiting {
+  opacity: 0.7;
+}
+
+.horsy-game {
+  display: flex;
+  gap: 32px;
+  align-items: flex-start;
+  padding: 24px 32px 64px;
+  flex-wrap: wrap;
+  text-align: left;
+}
+
+.horsy-panel {
+  flex: 1 1 280px;
+  min-width: 260px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.horsy-turn {
+  padding: 16px 18px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--code-bg);
+}
+
+.horsy-turn h2 {
+  margin: 0 0 4px;
+}
+
+.horsy-die {
+  font-family: var(--mono);
+  font-size: 40px;
+  color: var(--text-h);
+  line-height: 1;
+}
+
+.horsy-hint {
+  font-size: 15px;
+}
+
+.horsy-choice {
+  margin-top: 6px;
+  font-family: var(--mono);
+  font-size: 14px;
+  color: var(--text-h);
+}
+
+.horsy-log {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.horsy-log li {
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--border);
+}
+
+.horsy-error {
+  padding: 14px 16px;
+  border: 1px solid var(--accent-border);
+  border-radius: 10px;
+  background: var(--accent-bg);
+  font-size: 15px;
+}
+
+.horsy-banner {
+  padding: 20px 24px;
+  border-radius: 12px;
+  background: var(--accent-bg);
+  border: 1px solid var(--accent-border);
+  text-align: center;
+}
