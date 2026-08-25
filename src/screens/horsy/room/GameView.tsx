@@ -264,7 +264,7 @@ function GameView({ room, seats }: GameViewProps) {
   const done = champion !== null;
 
   return (
-    <div className="horsy-game">
+    <div className="tmd-game">
       <PetitsChevauxBoard
         pieces={pieces}
         cell={42}
@@ -274,33 +274,33 @@ function GameView({ room, seats }: GameViewProps) {
         activeColor={done ? champion : seat.color}
       />
 
-      <div className="horsy-panel">
+      <div className="tmd-panel">
         {done ? (
-          <div className="horsy-banner">
+          <div className="tmd-banner">
             <h2>{champion} wins</h2>
             <p>All four horses are home.</p>
           </div>
         ) : (
-          <div className="horsy-turn">
+          <div className="tmd-turn">
             <h2>{seat.player.name}</h2>
-            <p className="horsy-player-meta" style={{ color: SWATCH[seat.color] }}>
+            <p className="tmd-player-meta" style={{ color: SWATCH[seat.color] }}>
               playing {seat.color}
             </p>
-            <p className="horsy-die">{die ?? "-"}</p>
-            <p className="horsy-hint">
+            <p className="tmd-die">{die ?? "-"}</p>
+            <p className="tmd-hint">
               {phase === "roll" && "Roll the dice in the app."}
               {phase === "choose" && "Cycle through horses on the d-pad, then tap Submit."}
               {phase === "blocked" && "No move available - tap OK in the app."}
             </p>
-            {phase === "choose" && choice && <p className="horsy-choice">{choice}</p>}
+            {phase === "choose" && choice && <p className="tmd-choice">{choice}</p>}
           </div>
         )}
 
         {error && (
-          <div className="horsy-error">
+          <div className="tmd-error">
             <p>{error}</p>
             <button
-              className="horsy-cta is-ghost"
+              className="tmd-cta is-ghost"
               onClick={() => {
                 setError(null);
                 setRestart((n) => n + 1);
@@ -311,15 +311,15 @@ function GameView({ room, seats }: GameViewProps) {
           </div>
         )}
 
-        <ul className="horsy-players">
+        <ul className="tmd-players">
           {seats.map((s, index) => (
             <li
-              className={`horsy-player${index === turn && !done ? " is-turn" : ""}`}
+              className={`tmd-player${index === turn && !done ? " is-turn" : ""}`}
               key={s.player.playerId}
             >
-              <i className="horsy-dot" style={{ background: SWATCH[s.color] }} />
-              <span className="horsy-player-name">{s.player.name}</span>
-              <span className="horsy-player-meta">
+              <i className="tmd-dot" style={{ background: SWATCH[s.color] }} />
+              <span className="tmd-player-name">{s.player.name}</span>
+              <span className="tmd-player-meta">
                 {pieces.filter((p) => p.color === s.color && p.loc === "home").length}/4 home
               </span>
             </li>
@@ -327,8 +327,8 @@ function GameView({ room, seats }: GameViewProps) {
         </ul>
 
         <div>
-          <p className="horsy-code-label">Log</p>
-          <ul className="horsy-log">
+          <p className="tmd-code-label">Log</p>
+          <ul className="tmd-log">
             {log.map((line, index) => (
               <li key={`${String(log.length - index)}-${line}`}>{line}</li>
             ))}
