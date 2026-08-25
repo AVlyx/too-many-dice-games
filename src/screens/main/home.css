@@ -1,0 +1,281 @@
+/* ── hero ─────────────────────────────────────────────────────────────── */
+
+.home h1 {
+  margin-top: 56px;
+}
+
+.home-hero {
+  padding-top: 8px;
+}
+
+.home-hero .tmd-lede {
+  margin-bottom: 28px;
+}
+
+/* ── store buttons ────────────────────────────────────────────────────── */
+
+.home-stores {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+.home-store {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  text-decoration: none;
+  line-height: 1.15;
+}
+
+.home-store svg {
+  flex: none;
+}
+
+.home-store-top {
+  display: block;
+  font-size: 12px;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  opacity: 0.75;
+}
+
+.home-store-name {
+  display: block;
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.home-store.is-live {
+  /* Inverted against the page, so it stays readable in both themes. */
+  color: var(--bg);
+  background: var(--text-h);
+  box-shadow: var(--shadow);
+  transition: transform 0.2s, filter 0.2s;
+}
+.home-store.is-live:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.15);
+}
+
+.home-store.is-soon {
+  --soon-bg: var(--code-bg);
+  color: var(--text);
+  background: var(--soon-bg);
+  border-color: var(--border);
+  cursor: default;
+}
+
+.home-store-note {
+  font-size: 14px;
+  margin-top: 12px;
+}
+
+/* ── sections ─────────────────────────────────────────────────────────── */
+
+.home-section {
+  margin-top: 64px;
+}
+
+.home-section > h2 {
+  font-size: 30px;
+  letter-spacing: -0.5px;
+  margin-bottom: 10px;
+}
+
+.home-section-lede {
+  max-width: 62ch;
+  margin-bottom: 28px;
+}
+
+/* ── how it works ─────────────────────────────────────────────────────── */
+
+.home-steps {
+  list-style: none;
+  counter-reset: step;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+.home-step {
+  counter-increment: step;
+  padding: 22px 24px 24px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--social-bg);
+}
+
+.home-step::before {
+  content: counter(step);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  margin-bottom: 14px;
+  border-radius: 50%;
+  font-family: var(--mono);
+  font-size: 15px;
+  color: var(--accent);
+  background: var(--accent-bg);
+  border: 1px solid var(--accent-border);
+}
+
+.home-step h3 {
+  font-family: var(--heading);
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--text-h);
+  margin: 0 0 6px;
+}
+
+.home-step p {
+  font-size: 16px;
+}
+
+/* ── game cards ───────────────────────────────────────────────────────── */
+
+.home-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+.home-card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  background: var(--bg);
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+}
+.home-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent-border);
+  box-shadow: var(--shadow);
+}
+
+.home-thumb {
+  height: 272px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-bottom: 1px solid var(--border);
+  background: var(--code-bg);
+}
+
+.home-thumb > div,
+.home-thumb > svg {
+  transform: scale(var(--thumb-scale, 1));
+}
+
+.home-card-body {
+  padding: 22px 24px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.home-card-body h3 {
+  font-family: var(--heading);
+  font-size: 21px;
+  font-weight: 500;
+  color: var(--text-h);
+  margin: 0;
+}
+
+.home-card-body p {
+  font-size: 16px;
+}
+
+.home-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 14px;
+}
+
+.home-tag {
+  font-size: 13px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+}
+
+.home-card-go {
+  font-size: 16px;
+  color: var(--accent);
+}
+
+/* ── build your own ───────────────────────────────────────────────────── */
+
+.home-build {
+  margin-top: 72px;
+  padding: 32px;
+  border: 1px solid var(--accent-border);
+  border-radius: 16px;
+  background: var(--accent-bg);
+}
+
+.home-build h2 {
+  margin-bottom: 10px;
+}
+
+.home-build p {
+  max-width: 62ch;
+}
+
+.home-build p + p {
+  margin-top: 12px;
+}
+
+.home-build-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.home-build-actions a {
+  margin-top: 0;
+  text-decoration: none;
+}
+
+.home-build-actions .tmd-cta.is-ghost {
+  background: var(--bg);
+}
+
+/* ── small screens ────────────────────────────────────────────────────── */
+
+@media (max-width: 560px) {
+  .home h1 {
+    margin-top: 32px;
+  }
+
+  .home-section {
+    margin-top: 48px;
+  }
+
+  .home-thumb {
+    height: 200px;
+    --thumb-scale: 0.76;
+  }
+
+  .home-build {
+    padding: 24px 20px;
+  }
+}

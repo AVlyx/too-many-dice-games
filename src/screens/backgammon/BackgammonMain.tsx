@@ -2,25 +2,9 @@ import { Link, useNavigate } from "react-router";
 import BackgammonBoard from "./game/BackgammonBoard";
 import { PLAYER_NAME, PLAYER_SWATCH } from "./game/theme";
 import { MAX_PLAYERS } from "./game/config";
-import { applyMove, initialState, legalMovesForDie, PLAYERS } from "./game/rules";
+import { PLAYERS } from "./game/rules";
+import { demoState } from "./game/demo";
 import "../shared/game.css";
-
-/**
- * An illustrative position: White has opened 6-5 (the "lover's leap") and Black
- * has answered 3-1, making its 20 point.
- */
-const demoState = (() => {
-  let state = initialState();
-  const play = (side: (typeof PLAYERS)[number], die: number, from: number) => {
-    const move = legalMovesForDie(state, side, die).find((m) => m.from === from);
-    if (move) state = applyMove(state, move);
-  };
-  play("white", 6, 23);
-  play("white", 5, 17);
-  play("black", 3, 16);
-  play("black", 1, 18);
-  return state;
-})();
 
 function BackgammonMain() {
   const navigate = useNavigate();
