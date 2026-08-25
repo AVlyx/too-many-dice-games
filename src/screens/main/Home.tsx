@@ -8,6 +8,9 @@ function Home() {
       <p style={{ marginTop: 32 }}>
         <Link to="/horsy">Le jeu des petits chevaux →</Link>
       </p>
+      <p style={{ marginTop: 12 }}>
+        <Link to="/backgammon">Backgammon →</Link>
+      </p>
     </div>
   );
 }

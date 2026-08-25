@@ -4,8 +4,8 @@ import PetitsChevauxBoard, {
   type Piece,
   type PlayerColor,
 } from "./game/PetitsChevauxBoard";
-import { MAX_PLAYERS, MIN_PLAYERS } from "./room/useTmdRoom";
-import "./horsy.css";
+import { MAX_PLAYERS, MIN_PLAYERS } from "./game/config";
+import "../shared/game.css";
 
 const SWATCH: Record<PlayerColor, string> = {
   red: "oklch(0.55 0.16 25)",
@@ -38,20 +38,24 @@ function HorsyMain() {
   const navigate = useNavigate();
 
   return (
-    <div className="horsy">
-      <Link className="horsy-back" to="/">
+    <div className="tmd-page">
+      <Link className="tmd-back" to="/">
         ← All games
       </Link>
 
       <h1>Le jeu des petits chevaux</h1>
-      <p className="horsy-lede">
+      <p className="tmd-lede">
         The French classic: four horses per stable, one d6, and a long lap around the board before
         you may climb your own staircase to the centre. {MIN_PLAYERS}–{MAX_PLAYERS} players, played
         on this screen with the dice rolled from everyone's phone.
       </p>
 
-      <div className="horsy-split">
-        <div className="horsy-rules">
+      <button className="tmd-cta is-top" onClick={() => void navigate("/horsy/room")}>
+        Create a room
+      </button>
+
+      <div className="tmd-split">
+        <div className="tmd-rules">
           <h2>The goal</h2>
           <p>Be the first to bring all four of your horses home to the centre case.</p>
 
@@ -100,7 +104,7 @@ function HorsyMain() {
 
           <h2>Playing with the Too Many Dice app</h2>
           <ul>
-            <li>Create a room below — the next screen shows a QR code to scan.</li>
+            <li>Create a room above — the next screen shows a QR code to scan.</li>
             <li>Each player joins from the app; the board lives on this screen.</li>
             <li>
               On your turn, roll the dice on your phone. A form then lets you pick which horse to
@@ -108,22 +112,18 @@ function HorsyMain() {
             </li>
             <li>Tap <strong>Submit</strong> and the move is played, then it is the next player's turn.</li>
           </ul>
-
-          <button className="horsy-cta" onClick={() => void navigate("/horsy/room")}>
-            Create a room
-          </button>
         </div>
 
-        <div className="horsy-example">
+        <div className="tmd-example">
           <PetitsChevauxBoard pieces={demoPieces} cell={30} />
-          <p className="horsy-caption">
+          <p className="tmd-caption">
             A game in progress. Red has one horse home, one on the staircase, one on the track and
             one still stabled.
           </p>
-          <div className="horsy-legend">
+          <div className="tmd-legend">
             {ORDER.map((color) => (
               <span key={color}>
-                <i className="horsy-dot" style={{ background: SWATCH[color] }} />
+                <i className="tmd-dot" style={{ background: SWATCH[color] }} />
                 {color[0].toUpperCase() + color.slice(1)}
               </span>
             ))}

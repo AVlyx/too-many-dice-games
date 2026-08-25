@@ -1,14 +1,11 @@
 import { useEffect, useState } from "react";
-import { TooManyDiceRoom, type TmdPlayer } from "too-many-dice";
+import { TooManyDiceRoom, type DieType, type TmdPlayer } from "too-many-dice";
 
 /**
  * Leave the host undefined so the SDK falls back to its built-in production
  * host. The "myapp.partykit.dev" in the docs is a placeholder, not a real host.
  */
 const TMD_HOST: string | undefined = undefined;
-
-export const MAX_PLAYERS = 4;
-export const MIN_PLAYERS = 2;
 
 export type RoomStatus = "connecting" | "ready" | "error";
 
@@ -23,20 +20,24 @@ export interface TmdRoomState {
  * Creates a Too Many Dice room for this page and keeps its player list in sync.
  * Safe under React StrictMode's double mount: the room created by the discarded
  * first pass is destroyed whether it resolves before or after the cleanup runs.
+ *
+ * `dice` is depended on by value, not identity, so callers may pass a literal.
  */
-export function useTmdRoom(): TmdRoomState {
+export function useTmdRoom(playerLimit: number, dice: DieType[]): TmdRoomState {
   const [room, setRoom] = useState<TooManyDiceRoom | null>(null);
   const [players, setPlayers] = useState<TmdPlayer[]>([]);
   const [status, setStatus] = useState<RoomStatus>("connecting");
   const [error, setError] = useState<string | null>(null);
+
+  const diceKey = dice.join(",");
 
   useEffect(() => {
     let cancelled = false;
     let created: TooManyDiceRoom | null = null;
 
     TooManyDiceRoom.create(TMD_HOST, {
-      playerLimit: MAX_PLAYERS,
-      diceConfig: [{ id: "d6", type: "d6" }],
+      playerLimit,
+      diceConfig: diceKey.split(",").map((type, i) => ({ id: `d${i + 1}`, type: type as DieType })),
       callbacks: {
         onPlayerJoined: (player) =>
           setPlayers((current) =>
@@ -65,7 +66,7 @@ export function useTmdRoom(): TmdRoomState {
       cancelled = true;
       void created?.destroy();
     };
-  }, []);
+  }, [playerLimit, diceKey]);
 
   return { room, players, status, error };
 }

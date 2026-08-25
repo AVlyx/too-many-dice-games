@@ -1,21 +1,15 @@
 import { useState } from "react";
 import { Link } from "react-router";
-import { ORDER, type PlayerColor } from "../game/PetitsChevauxBoard";
+import { PLAYER_NAME, PLAYER_SWATCH } from "../game/theme";
+import { MAX_PLAYERS, MIN_PLAYERS } from "../game/config";
+import { PLAYERS } from "../game/rules";
 import GameView, { type Seat } from "./GameView";
 import Lobby from "../../shared/Lobby";
-import { MAX_PLAYERS, MIN_PLAYERS } from "../game/config";
 import { useTmdRoom } from "../../shared/useTmdRoom";
 import "../../shared/game.css";
 
-const SWATCH: Record<PlayerColor, string> = {
-  red: "oklch(0.55 0.16 25)",
-  blue: "oklch(0.52 0.12 255)",
-  yellow: "oklch(0.72 0.13 85)",
-  green: "oklch(0.5 0.12 150)",
-};
-
-function HorsyRoom() {
-  const { room, players, status, error } = useTmdRoom(MAX_PLAYERS, ["d6"]);
+function BackgammonRoom() {
+  const { room, players, status, error } = useTmdRoom(MAX_PLAYERS, ["d6", "d6"]);
   const [started, setStarted] = useState(false);
   const [starting, setStarting] = useState(false);
   // Frozen at kick-off: GameView's turn loop keys off this array's identity.
@@ -24,12 +18,12 @@ function HorsyRoom() {
   const start = () => {
     if (!room) return;
     setStarting(true);
-    // Lock the room, then freeze the seating: join order decides the colours.
+    // Lock the room, then freeze the seating: the first to join takes white.
     void room
       .closeAccess()
       .catch(() => undefined)
       .then(() => {
-        setSeats(players.slice(0, ORDER.length).map((player, i) => ({ player, color: ORDER[i] })));
+        setSeats(players.slice(0, PLAYERS.length).map((player, i) => ({ player, side: PLAYERS[i] })));
         setStarted(true);
         setStarting(false);
       });
@@ -37,7 +31,7 @@ function HorsyRoom() {
 
   return (
     <div className="tmd-page">
-      <Link className="tmd-back" to="/horsy">
+      <Link className="tmd-back" to="/backgammon">
         ← Rules
       </Link>
 
@@ -59,10 +53,13 @@ function HorsyRoom() {
         <Lobby
           room={room}
           players={players}
-          title="Join the stable"
+          title="Take your seat"
           minPlayers={MIN_PLAYERS}
           maxPlayers={MAX_PLAYERS}
-          seat={(index) => ({ label: ORDER[index], color: SWATCH[ORDER[index]] })}
+          seat={(index) => ({
+            label: PLAYER_NAME[PLAYERS[index]].toLowerCase(),
+            color: PLAYER_SWATCH[PLAYERS[index]],
+          })}
           onStart={start}
           starting={starting}
         />
@@ -73,4 +70,4 @@ function HorsyRoom() {
   );
 }
 
-export default HorsyRoom;
+export default BackgammonRoom;
